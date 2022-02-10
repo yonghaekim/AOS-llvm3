@@ -1,11 +1,13 @@
-# Always-On memory Safety (AOS) LLVM
+# AOS LLVM
 
 ## Dependencies
+You will likely need the following packages.
 ```
 git cmake python-dev libncurses5-dev swig libedit-dev libxml2-dev build-essential gcc-7-plugin-dev clang-6 libclang-6-dev lld-6
 ```
 
 ## Clone Git Repositories
+Clone LLVM 8.0.1 and place the AOS-llvm repository.
 ```
 mkdir LLVM
 git clone -b llvmorg-8.0.1 https://github.com/yonghaekim/llvm-project.git
@@ -14,6 +16,7 @@ git clone https://github.com/yonghaekim/AOS-llvm llvm-project/llvm
 ```
 
 ## Download Toolchains for Cross-Compilation
+Linaro toolchains are needed to cross-compile programs using the AArch64 ISA.
 ```
 wget https://releases.linaro.org/components/toolchain/binaries/7.3-2018.05/aarch64-linux-gnu/sysroot-glibc-linaro-2.25-2018.05-aarch64-linux-gnu.tar.xz
 tar xJf sysroot-glibc-linaro-2.25-2018.05-aarch64-linux-gnu.tar.xz
@@ -43,6 +46,20 @@ cmake -G Ninja \
 ninja
 ```
 
+## How to OPT an IR file (e.g., test.ll) using AOS opt passes?
+```
+opt -O0 -aos=enable -aos-opt -S test.ll -o test_aos.ll
+```
+
+## How to compile an instrumented IR file (e.g., test_aos.ll)?
+```
+$LLVM_PATH/aos-build/bin/clang++ -O3 --target=aarch64-linux-gnu \
+-march=armv8.3-a -I$LLVM_PATH/sysroot-glibc-linaro-2.25-2018.05-aarch64-linux-gnu/usr/include \
+-B$LLVM_PATH/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu \
+-Wall -Wextra -fPIC -fvisibility=hidden \
+--sysroot=$LLVM_PATH/sysroot-glibc-linaro-2.25-2018.05-aarch64-linux-gnu -static \
+test_aos.ll -o test_aos
+```
 
 ## Publications
 ```
@@ -56,7 +73,7 @@ ninja
 }
 ```
 
-## The LLVM Compiler Infrastructure
+## Original LLVM README
 ================================
 
 This directory and its subdirectories contain source code for LLVM,
