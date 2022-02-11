@@ -29,7 +29,7 @@ tar xJf gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu.tar.xz
 mkdir aos-build
 cd aos-build
 cmake -G Ninja \
-          -DCMAKE_INSTALL_PREFIX=${HOME}/opt/AOS \
+          -DCMAKE_INSTALL_PREFIX=${HOME}/opt/AOS  \
           -DCMAKE_BUILD_TYPE=Debug                \
           -DBUILD_SHARED_LIBS=On                  \
           -DLLVM_TARGETS_TO_BUILD=AArch64         \
@@ -54,11 +54,11 @@ opt -O0 -aos=enable -aos-opt -S test.ll -o test_aos.ll
 ## How to compile an instrumented IR file (e.g., test_aos.ll)?
 ```
 $LLVM_PATH/aos-build/bin/clang++ -O3 --target=aarch64-linux-gnu \
--march=armv8.3-a -I$LLVM_PATH/sysroot-glibc-linaro-2.25-2018.05-aarch64-linux-gnu/usr/include \
--B$LLVM_PATH/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu \
--Wall -Wextra -fPIC -fvisibility=hidden \
---sysroot=$LLVM_PATH/sysroot-glibc-linaro-2.25-2018.05-aarch64-linux-gnu -static \
-test_aos.ll -o test_aos
+          -march=armv8.3-a -I$LLVM_PATH/sysroot-glibc-linaro-2.25-2018.05-aarch64-linux-gnu/usr/include \
+          -B$LLVM_PATH/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu \
+          -Wall -Wextra -fPIC -fvisibility=hidden \
+          --sysroot=$LLVM_PATH/sysroot-glibc-linaro-2.25-2018.05-aarch64-linux-gnu -static \
+          test_aos.ll -o test_aos
 ```
 
 ## Publications
