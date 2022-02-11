@@ -6,7 +6,7 @@ You will likely need the following packages.
 git cmake python-dev libncurses5-dev swig libedit-dev libxml2-dev build-essential gcc-7-plugin-dev clang-6 libclang-6-dev lld-6
 ```
 
-## Clone Git Repositories
+## Git Repositories Clone
 Clone LLVM 8.0.1 and place the AOS-llvm repository.
 ```
 mkdir LLVM
