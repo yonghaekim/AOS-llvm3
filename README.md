@@ -1,4 +1,4 @@
-# AOS LLVM
+k# AOS LLVM
 
 ## Dependencies
 You will likely need the following packages.
@@ -9,7 +9,7 @@ git cmake python-dev libncurses5-dev swig libedit-dev libxml2-dev build-essentia
 ## Git Repositories Clone
 Clone LLVM 8.0.1 and place the AOS-llvm repository.
 ```
-mkdir LLVM
+mkdir LLVM && cd LLVM
 git clone -b llvmorg-8.0.1 https://github.com/yonghaekim/llvm-project.git
 rm -rf llvm-project/llvm
 git clone https://github.com/yonghaekim/AOS-llvm llvm-project/llvm
@@ -26,8 +26,7 @@ tar xJf gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu.tar.xz
 
 ## Build Instructions
 ```
-mkdir aos-build
-cd aos-build
+mkdir aos-build && cd aos-build
 cmake -G Ninja \
           -DCMAKE_INSTALL_PREFIX=${HOME}/opt/AOS  \
           -DCMAKE_BUILD_TYPE=Debug                \
