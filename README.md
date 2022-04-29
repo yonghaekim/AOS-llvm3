@@ -26,8 +26,7 @@ tar xJf gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu.tar.xz
 
 ## Build Instructions
 ```
-mkdir aos-build
-cd aos-build
+mkdir aos-build && cd aos-build
 cmake -G Ninja \
           -DCMAKE_INSTALL_PREFIX=${HOME}/opt/AOS  \
           -DCMAKE_BUILD_TYPE=Debug                \
