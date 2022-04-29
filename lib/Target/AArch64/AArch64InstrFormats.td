@@ -1408,36 +1408,52 @@ multiclass AuthLoad<bit M, string asm, Operand opr> {
 }
 
 //yh+begin
-class AOSThreeReg<bits<3> opcode_prefix, bits<2> opcode, string asm>
-  : I<(outs), (ins GPR64:$Rd, GPR64sp:$Rn, GPR64sp:$Rm), asm, "\t$Rd, $Rn, $Rm", "", []>, Sched<[]> {
+class AOSDestSrcTwo<bits<3> opcode, string asm>
+  : I<(outs GPR64:$Rd), (ins GPR64sp:$Rn, GPR64sp:$Rm), asm, "\t$Rd, $Rn, $Rm", "", []>, Sched<[]> {
   bits<5> Rd;
   bits<5> Rn;
   bits<5> Rm;
-  let Inst{31-15} = 0b11011010111000010;
+  let Inst{31-21} = 0b11011010111;
+  let Inst{20-18} = opcode;
+  let Inst{17-15} = 0b010;
   let Inst{14-10} = Rm;
   let Inst{9-5} = Rn;
   let Inst{4-0} = Rd;
 }
 
-class AOSTwoReg<bits<3> opcode_prefix, bits<2> opcode, string asm>
-  : I<(outs), (ins GPR64:$Rd, GPR64sp:$Rn), asm, "\t$Rd, $Rn", "", []>, Sched<[]> {
+class AOSDestSrcOne<bits<3> opcode, string asm>
+  : I<(outs GPR64:$Rd), (ins GPR64sp:$Rn), asm, "\t$Rd, $Rn", "", []>, Sched<[]> {
   bits<5> Rd;
   bits<5> Rn;
-  let Inst{31-15} = 0b11011010110000010;
-  let Inst{14-12} = opcode_prefix;
-  let Inst{11-10} = opcode;
+  let Inst{31-21} = 0b11011010111;
+  let Inst{20-18} = opcode;
+  let Inst{17-15} = 0b010;
+  let Inst{14-10} = 0b00000;
   let Inst{9-5} = Rn;
   let Inst{4-0} = Rd;
 }
 
-class AOSOneReg<bits<3> opcode_prefix, bits<2> opcode, string asm>
-  : I<(outs), (ins GPR64sp:$Rd), asm, "\t$Rd", "", []>, Sched<[]> {
-  bits<5> Rd;
-  let Inst{31-15} = 0b11011010110000010;
-  let Inst{14-12} = opcode_prefix;
-  let Inst{11-10} = opcode;
-  let Inst{9-5} = 0b11111;
-  let Inst{4-0} = Rd;
+class AOSSrcTwo<bits<3> opcode, string asm>
+  : I<(outs), (ins GPR64sp:$Rn, GPR64sp:$Rm), asm, "\t$Rn, $Rm", "", []>, Sched<[]> {
+  bits<5> Rn;
+  bits<5> Rm;
+  let Inst{31-21} = 0b11011010111;
+  let Inst{20-18} = opcode;
+  let Inst{17-15} = 0b010;
+  let Inst{14-10} = Rm;
+  let Inst{9-5} = Rn;
+  let Inst{4-0} = 0b00000;
+}
+
+class AOSSrcOne<bits<3> opcode, string asm>
+  : I<(outs), (ins GPR64sp:$Rn), asm, "\t$Rn", "", []>, Sched<[]> {
+  bits<5> Rn;
+  let Inst{31-21} = 0b11011010111;
+  let Inst{20-18} = opcode;
+  let Inst{17-15} = 0b010;
+  let Inst{14-10} = 0b00000;
+  let Inst{9-5} = Rn;
+  let Inst{4-0} = 0b00000;
 }
 //yh+end
 

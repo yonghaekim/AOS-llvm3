@@ -701,23 +701,24 @@ let Predicates = [HasPA] in {
 
   defm LDRAA  : AuthLoad<0, "ldraa", simm10Scaled>;
   defm LDRAB  : AuthLoad<1, "ldrab", simm10Scaled>;
-
-	//yh+begin
-  def PACMA 	: AOSThreeReg<0b110, 0b00, "pacma">;
-  def XPACM 	: AOSOneReg<0b110, 0b01, "xpacm">;
-  def BNDSTR 	: AOSTwoReg<0b110, 0b10, "bndstr">;
-  def BNDCLR 	: AOSOneReg<0b110, 0b11, "bndclr">;
-  //yh+end
 }
 
 //yh+begin
+def PACMA : AOSDestSrcTwo<0b000, "pacma">;
+def XPACM : AOSDestSrcOne<0b001, "xpacm">;
+def BNDSTR : AOSSrcTwo<0b010, "bndstr">;
+def BNDCLR : AOSSrcOne<0b011, "bndclr">;
+//yh+end
+
+//yh+begin
+
 let isPseudo = 1, hasNoSchedulingInfo = 1 in {
   def AOS_PACMA : Pseudo<(outs GPR64:$dst),
                           (ins GPR64:$ptr, GPR64:$size),
-                          [(set i64:$dst, (int_aos_pacma GPR64:$ptr, GPR64:$size))], "$dst = $ptr">;
+                          [(set i64:$dst, (int_aos_pacma GPR64:$ptr, GPR64:$size))], "">;
   def AOS_XPACM : Pseudo<(outs GPR64:$dst),
                           (ins GPR64:$ptr),
-                          [(set i64:$dst, (int_aos_xpacm GPR64:$ptr))], "$dst = $ptr">;
+                          [(set i64:$dst, (int_aos_xpacm GPR64:$ptr))], "">;
   def AOS_BNDSTR : Pseudo<(outs),
                           (ins GPR64:$ptr, GPR64:$size),
                           [(int_aos_bndstr GPR64:$ptr, GPR64:$size)]>;

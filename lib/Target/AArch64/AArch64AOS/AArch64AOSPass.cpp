@@ -73,8 +73,8 @@ bool AArch64AOSPass::runOnMachineFunction(MachineFunction &MF) {
 
       switch (MIk->getOpcode()) {
         case AArch64::AOS_PACMA: {
-          BuildMI(MBB, MIk, MIk->getDebugLoc(), TII->get(AArch64::PACMA), MIk->getOperand(1).getReg())
-            .addUse(AArch64::SP)
+          BuildMI(MBB, MIk, MIk->getDebugLoc(), TII->get(AArch64::PACMA), MIk->getOperand(0).getReg())
+            .addReg(MIk->getOperand(1).getReg())
             .addReg(MIk->getOperand(2).getReg());
 
           MIk->removeFromParent();
@@ -84,7 +84,8 @@ bool AArch64AOSPass::runOnMachineFunction(MachineFunction &MF) {
           break;
         }
         case AArch64::AOS_XPACM: {
-          BuildMI(MBB, MIk, MIk->getDebugLoc(), TII->get(AArch64::XPACM), MIk->getOperand(1).getReg());
+          BuildMI(MBB, MIk, MIk->getDebugLoc(), TII->get(AArch64::XPACM), MIk->getOperand(0).getReg())
+            .addReg(MIk->getOperand(1).getReg());
 
           MIk->removeFromParent();
           modified = true;
@@ -93,7 +94,8 @@ bool AArch64AOSPass::runOnMachineFunction(MachineFunction &MF) {
           break;
         }
         case AArch64::AOS_BNDSTR: {
-          BuildMI(MBB, MIk, MIk->getDebugLoc(), TII->get(AArch64::BNDSTR), MIk->getOperand(0).getReg())
+          BuildMI(MBB, MIk, MIk->getDebugLoc(), TII->get(AArch64::BNDSTR))
+            .addReg(MIk->getOperand(0).getReg())
             .addReg(MIk->getOperand(1).getReg());
 
           MIk->removeFromParent();
@@ -103,7 +105,8 @@ bool AArch64AOSPass::runOnMachineFunction(MachineFunction &MF) {
           break;
         }
         case AArch64::AOS_BNDCLR: {
-          BuildMI(MBB, MIk, MIk->getDebugLoc(), TII->get(AArch64::BNDCLR), MIk->getOperand(0).getReg());
+          BuildMI(MBB, MIk, MIk->getDebugLoc(), TII->get(AArch64::BNDCLR))
+            .addReg(MIk->getOperand(0).getReg());
 
           MIk->removeFromParent();
           modified = true;
